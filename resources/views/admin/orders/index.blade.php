@@ -1,0 +1,164 @@
+@extends('admin.layouts.app')
+@section('title', 'Kelola Pesanan')
+
+@section('content')
+<div class="admin-header">
+    <h1>🧾 Kelola Pesanan</h1>
+</div>
+
+<!-- Status Tabs -->
+<div class="category-pills mb-3">
+    <a href="{{ route('admin.orders.index') }}" class="category-pill {{ !request('status') ? 'active' : '' }}">
+        🏷️ Semua ({{ $statusCounts['all'] }})
+    </a>
+    <a href="{{ route('admin.orders.index', ['status' => 'pending']) }}" class="category-pill {{ request('status') == 'pending' ? 'active' : '' }}">
+        ⏳ Pending ({{ $statusCounts['pending'] }})
+    </a>
+    <a href="{{ route('admin.orders.index', ['status' => 'processing']) }}" class="category-pill {{ request('status') == 'processing' ? 'active' : '' }}">
+        🔄 Proses ({{ $statusCounts['processing'] }})
+    </a>
+    <a href="{{ route('admin.orders.index', ['status' => 'completed']) }}" class="category-pill {{ request('status') == 'completed' ? 'active' : '' }}">
+        ✅ Selesai ({{ $statusCounts['completed'] }})
+    </a>
+    <a href="{{ route('admin.orders.index', ['status' => 'cancelled']) }}" class="category-pill {{ request('status') == 'cancelled' ? 'active' : '' }}">
+        ❌ Batal ({{ $statusCounts['cancelled'] }})
+    </a>
+</div>
+
+<!-- Search & Filter -->
+<form action="{{ route('admin.orders.index') }}" method="GET" class="flex items-center gap-1 mb-3" style="flex-wrap:wrap;">
+    <input type="hidden" name="status" value="{{ request('status') }}">
+    <input type="text" name="search" value="{{ request('search') }}" placeholder="🔍 Cari kode/nama..." class="form-control" style="max-width:250px;">
+    <input type="date" name="date_from" value="{{ request('date_from') }}" class="form-control" style="max-width:170px;" placeholder="Dari tanggal">
+    <input type="date" name="date_to" value="{{ request('date_to') }}" class="form-control" style="max-width:170px;" placeholder="Sampai tanggal">
+    <button type="submit" class="btn btn-primary btn-sm">🔍 Filter</button>
+    <a href="{{ route('admin.orders.index') }}" class="btn btn-outline btn-sm">Reset</a>
+</form>
+
+<!-- Orders Table -->
+<div class="table-wrap">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Kode Order</th>
+                <th>Pelanggan</th>
+                <th>Item</th>
+                <th>Total</th>
+                <th>Status</th>
+                <th>Tanggal</th>
+                <th>Aksi</th>
+            </tr>
+        </thead>
+        <tbody>
+            @forelse($orders as $order)
+                <tr>
+                    <td><span class="font-bold">{{ $order->order_code }}</span></td>
+                    <td>
+                        <div class="font-bold">{{ $order->customer_name }}</div>
+                        <div class="text-sm text-light">📱 {{ $order->customer_phone }}</div>
+                    </td>
+                    <td>
+                        <span class="text-sm">{{ $order->items->count() }} item</span>
+                    </td>
+                    <td class="font-bold text-primary">{{ $order->formatted_total }}</td>
+                    <td>
+                        <span class="badge badge-{{ $order->status }}">
+                            @switch($order->status)
+                                @case('pending') ⏳ Pending @break
+                                @case('processing') 🔄 Proses @break
+                                @case('completed') ✅ Selesai @break
+                                @case('cancelled') ❌ Batal @break
+                            @endswitch
+                        </span>
+                    </td>
+                    <td class="text-sm text-light">{{ $order->created_at->format('d M Y H:i') }}</td>
+                    <td>
+                        <div class="flex gap-1">
+                            <button class="btn btn-sm btn-secondary" onclick="showOrderDetail({{ json_encode($order->load('items')) }})">👁️</button>
+                            <form action="{{ route('admin.orders.updateStatus', $order->id) }}" method="POST" class="flex gap-1">
+                                @csrf @method('PUT')
+                                <select name="status" class="form-control" style="padding:0.3rem 0.5rem; font-size:0.8rem; min-width:100px;" onchange="this.form.submit()">
+                                    <option value="pending" {{ $order->status == 'pending' ? 'selected' : '' }}>⏳ Pending</option>
+                                    <option value="processing" {{ $order->status == 'processing' ? 'selected' : '' }}>🔄 Proses</option>
+                                    <option value="completed" {{ $order->status == 'completed' ? 'selected' : '' }}>✅ Selesai</option>
+                                    <option value="cancelled" {{ $order->status == 'cancelled' ? 'selected' : '' }}>❌ Batal</option>
+                                </select>
+                            </form>
+                        </div>
+                    </td>
+                </tr>
+            @empty
+                <tr><td colspan="7" class="text-center text-light" style="padding:2rem;">Belum ada pesanan 📭</td></tr>
+            @endforelse
+        </tbody>
+    </table>
+</div>
+
+<div class="pagination-wrap">
+    {{ $orders->withQueryString()->links() }}
+</div>
+
+<!-- Order Detail Modal -->
+<div class="modal-overlay" id="orderDetailModal">
+    <div class="modal" style="max-width:600px;">
+        <div class="modal-header">
+            <h3>📋 Detail Pesanan</h3>
+            <button class="modal-close" onclick="closeModal('orderDetailModal')">✕</button>
+        </div>
+        <div class="modal-body" id="orderDetailContent">
+            <!-- Filled by JS -->
+        </div>
+    </div>
+</div>
+@endsection
+
+@section('scripts')
+<script>
+function openModal(id) { document.getElementById(id).classList.add('active'); }
+function closeModal(id) { document.getElementById(id).classList.remove('active'); }
+
+function showOrderDetail(order) {
+    let itemsHtml = order.items.map(item =>
+        `<div class="summary-row">
+            <span class="text-sm">${item.product_name} × ${item.quantity}</span>
+            <span class="text-sm font-bold">Rp ${Number(item.subtotal).toLocaleString('id-ID')}</span>
+        </div>`
+    ).join('');
+
+    let statusBadge = {
+        'pending': '⏳ Pending',
+        'processing': '🔄 Proses',
+        'completed': '✅ Selesai',
+        'cancelled': '❌ Batal'
+    };
+
+    document.getElementById('orderDetailContent').innerHTML = `
+        <div style="margin-bottom:1.5rem;">
+            <div class="flex justify-between items-center mb-2">
+                <span class="font-bold text-lg">${order.order_code}</span>
+                <span class="badge badge-${order.status}">${statusBadge[order.status]}</span>
+            </div>
+            <div style="background:var(--bg-warm); border-radius:12px; padding:1rem; margin-bottom:1rem;">
+                <p><strong>👤 Nama:</strong> ${order.customer_name}</p>
+                <p><strong>📱 Telp:</strong> ${order.customer_phone}</p>
+                <p><strong>📍 Alamat:</strong> ${order.customer_address}</p>
+                ${order.customer_note ? `<p><strong>📝 Catatan:</strong> ${order.customer_note}</p>` : ''}
+            </div>
+            <h4 style="margin-bottom:0.5rem;">🛒 Item Pesanan</h4>
+            ${itemsHtml}
+            <div class="summary-row summary-total">
+                <span class="font-bold">Total</span>
+                <span class="total-price">Rp ${Number(order.total_amount).toLocaleString('id-ID')}</span>
+            </div>
+        </div>
+    `;
+    openModal('orderDetailModal');
+}
+
+document.querySelectorAll('.modal-overlay').forEach(overlay => {
+    overlay.addEventListener('click', (e) => {
+        if (e.target === overlay) overlay.classList.remove('active');
+    });
+});
+</script>
+@endsection
