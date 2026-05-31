@@ -3,14 +3,14 @@
 
 @section('content')
 <div class="admin-header">
-    <h1>📦 Kelola Produk</h1>
-    <button class="btn btn-primary" onclick="openModal('addProductModal')">➕ Tambah Produk</button>
+    <h1>Kelola Produk</h1>
+    <button class="btn btn-primary" onclick="openModal('addProductModal')">+ Tambah Produk</button>
 </div>
 
 <!-- Search -->
 <div class="flex items-center gap-2 mb-3" style="flex-wrap:wrap;">
     <form action="{{ route('admin.products.index') }}" method="GET" class="flex gap-1" style="flex:1;">
-        <input type="text" name="search" value="{{ request('search') }}" placeholder="🔍 Cari produk..." class="form-control" style="max-width:300px;">
+        <input type="text" name="search" value="{{ request('search') }}" placeholder="Cari produk..." class="form-control" style="max-width:300px;">
         <select name="category" class="form-control" style="max-width:200px;">
             <option value="">Semua Kategori</option>
             @foreach($categories as $cat)
@@ -43,7 +43,7 @@
                                 @if($product->image)
                                     <img src="{{ asset('storage/' . $product->image) }}" alt="" style="width:100%;height:100%;object-fit:cover;">
                                 @else
-                                    {{ $product->category->icon ?? '🍰' }}
+                                    {{ $product->category->icon ?? '' }}
                                 @endif
                             </div>
                             <div>
@@ -61,23 +61,23 @@
                     </td>
                     <td>
                         @if($product->is_active)
-                            <span class="badge badge-completed">✅ Aktif</span>
+                            <span class="badge badge-completed">Aktif</span>
                         @else
-                            <span class="badge badge-cancelled">❌ Nonaktif</span>
+                            <span class="badge badge-cancelled">Nonaktif</span>
                         @endif
                     </td>
                     <td>
                         <div class="flex gap-1">
-                            <button class="btn btn-sm btn-secondary" onclick="editProduct({{ json_encode($product) }})">✏️</button>
+                            <button class="btn btn-sm btn-secondary" onclick="editProduct({{ json_encode($product) }})">Edit</button>
                             <form action="{{ route('admin.products.destroy', $product->id) }}" method="POST" onsubmit="return confirm('Yakin hapus produk ini?');">
                                 @csrf @method('DELETE')
-                                <button type="submit" class="btn btn-sm btn-danger">🗑️</button>
+                                <button type="submit" class="btn btn-sm btn-danger">Hapus</button>
                             </form>
                         </div>
                     </td>
                 </tr>
             @empty
-                <tr><td colspan="6" class="text-center text-light" style="padding:2rem;">Belum ada produk 📭</td></tr>
+                <tr><td colspan="6" class="text-center text-light" style="padding:2rem;">Belum ada produk</td></tr>
             @endforelse
         </tbody>
     </table>
@@ -91,7 +91,7 @@
 <div class="modal-overlay" id="addProductModal">
     <div class="modal">
         <div class="modal-header">
-            <h3>➕ Tambah Produk Baru</h3>
+            <h3>Tambah Produk Baru</h3>
             <button class="modal-close" onclick="closeModal('addProductModal')">✕</button>
         </div>
         <form action="{{ route('admin.products.store') }}" method="POST" enctype="multipart/form-data">
@@ -134,7 +134,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-outline btn-sm" onclick="closeModal('addProductModal')">Batal</button>
-                <button type="submit" class="btn btn-primary">💾 Simpan</button>
+                <button type="submit" class="btn btn-primary">Simpan</button>
             </div>
         </form>
     </div>
@@ -144,7 +144,7 @@
 <div class="modal-overlay" id="editProductModal">
     <div class="modal">
         <div class="modal-header">
-            <h3>✏️ Edit Produk</h3>
+            <h3>Edit Produk</h3>
             <button class="modal-close" onclick="closeModal('editProductModal')">✕</button>
         </div>
         <form id="editForm" method="POST" enctype="multipart/form-data">
@@ -187,7 +187,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-outline btn-sm" onclick="closeModal('editProductModal')">Batal</button>
-                <button type="submit" class="btn btn-primary">💾 Update</button>
+                <button type="submit" class="btn btn-primary">Update</button>
             </div>
         </form>
     </div>

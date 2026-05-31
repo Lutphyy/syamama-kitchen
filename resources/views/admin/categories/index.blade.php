@@ -3,8 +3,8 @@
 
 @section('content')
 <div class="admin-header">
-    <h1>📁 Kelola Kategori</h1>
-    <button class="btn btn-primary" onclick="openModal('addCategoryModal')">➕ Tambah Kategori</button>
+    <h1>Kelola Kategori</h1>
+    <button class="btn btn-primary" onclick="openModal('addCategoryModal')">+ Tambah Kategori</button>
 </div>
 
 <!-- Categories Grid -->
@@ -20,10 +20,10 @@
                     </div>
                 </div>
                 <div class="flex gap-1">
-                    <button class="btn btn-sm btn-secondary" onclick="editCategory({{ json_encode($category) }})">✏️</button>
+                    <button class="btn btn-sm btn-secondary" onclick="editCategory({{ json_encode($category) }})">Edit</button>
                     <form action="{{ route('admin.categories.destroy', $category->id) }}" method="POST" onsubmit="return confirm('Yakin hapus kategori ini? Semua produk di dalamnya juga akan terhapus!');">
                         @csrf @method('DELETE')
-                        <button type="submit" class="btn btn-sm btn-danger">🗑️</button>
+                        <button type="submit" class="btn btn-sm btn-danger">Hapus</button>
                     </form>
                 </div>
             </div>
@@ -36,7 +36,7 @@
         </div>
     @empty
         <div class="empty-state" style="grid-column:1/-1;">
-            <div class="emoji">📁</div>
+            <div style="font-size:3rem; margin-bottom:1rem; color:var(--text-light);">—</div>
             <h3>Belum ada kategori</h3>
             <p>Buat kategori pertama untuk mengorganisir produk kamu.</p>
         </div>
@@ -47,7 +47,7 @@
 <div class="modal-overlay" id="addCategoryModal">
     <div class="modal">
         <div class="modal-header">
-            <h3>➕ Tambah Kategori</h3>
+            <h3>Tambah Kategori</h3>
             <button class="modal-close" onclick="closeModal('addCategoryModal')">✕</button>
         </div>
         <form action="{{ route('admin.categories.store') }}" method="POST">
@@ -69,7 +69,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-outline btn-sm" onclick="closeModal('addCategoryModal')">Batal</button>
-                <button type="submit" class="btn btn-primary">💾 Simpan</button>
+                <button type="submit" class="btn btn-primary">Simpan</button>
             </div>
         </form>
     </div>
@@ -79,7 +79,7 @@
 <div class="modal-overlay" id="editCategoryModal">
     <div class="modal">
         <div class="modal-header">
-            <h3>✏️ Edit Kategori</h3>
+            <h3>Edit Kategori</h3>
             <button class="modal-close" onclick="closeModal('editCategoryModal')">✕</button>
         </div>
         <form id="editCatForm" method="POST">
@@ -100,7 +100,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-outline btn-sm" onclick="closeModal('editCategoryModal')">Batal</button>
-                <button type="submit" class="btn btn-primary">💾 Update</button>
+                <button type="submit" class="btn btn-primary">Update</button>
             </div>
         </form>
     </div>
