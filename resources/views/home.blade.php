@@ -9,7 +9,14 @@
     <span class="hero-emoji" style="top:20%;left:15%;animation-delay:0s;">❤️</span>
     <span class="hero-emoji" style="top:60%;left:70%;animation-delay:1s;">🧋</span>
     <span class="hero-emoji" style="top:35%;left:80%;animation-delay:2s;">🍉</span>
+    
     <div class="container">
+        <!-- Hero Image - Left Side -->
+        <div class="hero-image">
+            <img src="{{ asset('images/hero.png') }}" alt="Syamama Kitchen">
+        </div>
+        
+        <!-- Hero Content - Right Side -->
         <div class="hero-content slide-up">
             <h1 class="hero-title">
                 <span style="color:#047FD5;">Syamama</span><br>
