@@ -1,5 +1,5 @@
 @extends('layouts.app')
-@section('title', 'Syamama Kitchen - Kue & Makanan Rumahan Lezat')
+@section('title', 'Syamama Kitchen - Healthy & Natural')
     
 @section('content')
 <!-- Hero -->

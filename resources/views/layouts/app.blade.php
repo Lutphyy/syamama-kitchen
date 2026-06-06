@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Syamama Kitchen - Kue & Makanan Rumahan Lezat, pesan langsung via WhatsApp!">
-    <title>@yield('title', 'Syamama Kitchen - Kue & Makanan Rumahan Lezat')</title>
+    <meta name="description" content="Syamama Kitchen - Healthy & Natural, pesan langsung via WhatsApp!">
+    <title>@yield('title', 'Syamama Kitchen - Healthy & Natural')</title>
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
     <link rel="icon" href="{{ asset('images/logo.png') }}" type="image/png">
 </head>
