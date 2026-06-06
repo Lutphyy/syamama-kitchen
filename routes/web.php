@@ -26,10 +26,10 @@ Route::post('/cart/remove', [CartController::class, 'remove'])->name('cart.remov
 Route::get('/checkout', [OrderController::class, 'checkout'])->name('checkout');
 Route::post('/checkout', [OrderController::class, 'store'])->name('checkout.store');
 
-// Hidden Admin Login (secret URL - not linked anywhere on the site)
+// Admin Login Routes
 Route::middleware('guest')->group(function () {
-    Route::get('/syamama-panel', [AuthController::class, 'showLogin'])->name('login');
-    Route::post('/syamama-panel', [AuthController::class, 'login']);
+    Route::get('/admin', [AuthController::class, 'showLogin'])->name('login');
+    Route::post('/admin', [AuthController::class, 'login']);
 });
 
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout')->middleware('auth');
@@ -37,6 +37,11 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout')->middl
 // Admin Routes
 Route::prefix('admin')->middleware(['auth', 'admin'])->name('admin.')->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+
+    // Admin Users Management
+    Route::get('/admins', [DashboardController::class, 'admins'])->name('admins.index');
+    Route::post('/admins', [DashboardController::class, 'storeAdmin'])->name('admins.store');
+    Route::delete('/admins/{id}', [DashboardController::class, 'destroyAdmin'])->name('admins.destroy');
 
     // Products
     Route::get('/products', [AdminProductController::class, 'index'])->name('products.index');

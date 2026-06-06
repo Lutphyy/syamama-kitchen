@@ -10,6 +10,9 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
 </head>
 <body style="background:var(--bg-cream);">
+    <!-- Sidebar Overlay (for mobile) -->
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+    
     <div class="admin-layout">
         <!-- Sidebar -->
         <aside class="admin-sidebar" id="adminSidebar">
@@ -52,6 +55,14 @@
                     </a>
                 </li>
 
+                <li class="menu-label">Pengaturan</li>
+                <li>
+                    <a href="{{ route('admin.admins.index') }}" class="{{ request()->routeIs('admin.admins.*') ? 'active' : '' }}">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" style="width:18px;height:18px;"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
+                        Kelola Admin
+                    </a>
+                </li>
+
                 <li class="menu-label">Lainnya</li>
                 <li>
                     <a href="{{ route('home') }}">
@@ -71,7 +82,7 @@
 
         <!-- Content -->
         <div class="admin-content">
-            <button class="mobile-toggle" onclick="document.getElementById('adminSidebar').classList.toggle('open')" style="display:none; margin-bottom:1rem;">
+            <button class="mobile-toggle" id="mobileToggle" style="display:none;">
                 ☰ Menu
             </button>
 
@@ -96,10 +107,55 @@
             });
         }, 4000);
 
-        // Mobile sidebar toggle
-        if (window.innerWidth <= 768) {
-            document.querySelector('.mobile-toggle').style.display = 'block';
+        // Mobile sidebar toggle - improved
+        const mobileToggle = document.getElementById('mobileToggle');
+        const adminSidebar = document.getElementById('adminSidebar');
+        const sidebarOverlay = document.getElementById('sidebarOverlay');
+
+        function toggleSidebar() {
+            adminSidebar.classList.toggle('open');
+            sidebarOverlay.classList.toggle('active');
+            document.body.style.overflow = adminSidebar.classList.contains('open') ? 'hidden' : '';
         }
+
+        function closeSidebar() {
+            adminSidebar.classList.remove('open');
+            sidebarOverlay.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        // Toggle button click
+        if (mobileToggle) {
+            mobileToggle.addEventListener('click', toggleSidebar);
+        }
+
+        // Overlay click to close
+        if (sidebarOverlay) {
+            sidebarOverlay.addEventListener('click', closeSidebar);
+        }
+
+        // Close sidebar when clicking a menu item on mobile
+        if (window.innerWidth <= 768) {
+            document.querySelectorAll('.sidebar-menu a').forEach(link => {
+                link.addEventListener('click', closeSidebar);
+            });
+        }
+
+        // Show/hide mobile toggle based on screen size
+        function checkScreenSize() {
+            if (window.innerWidth <= 768) {
+                if (mobileToggle) mobileToggle.style.display = 'block';
+            } else {
+                if (mobileToggle) mobileToggle.style.display = 'none';
+                closeSidebar(); // Close sidebar when resizing to desktop
+            }
+        }
+
+        // Initial check
+        checkScreenSize();
+
+        // Check on resize
+        window.addEventListener('resize', checkScreenSize);
     </script>
     @yield('scripts')
 </body>

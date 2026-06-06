@@ -33,7 +33,6 @@ class OrderController extends Controller
         $statusCounts = [
             'all' => Order::count(),
             'pending' => Order::where('status', 'pending')->count(),
-            'processing' => Order::where('status', 'processing')->count(),
             'completed' => Order::where('status', 'completed')->count(),
             'cancelled' => Order::where('status', 'cancelled')->count(),
         ];
@@ -47,7 +46,7 @@ class OrderController extends Controller
         $oldStatus = $order->status;
 
         $request->validate([
-            'status' => 'required|in:pending,processing,completed,cancelled',
+            'status' => 'required|in:pending,completed,cancelled',
         ]);
 
         if ($oldStatus === 'cancelled' && $request->status !== 'cancelled') {

@@ -69,6 +69,13 @@ class ProductController extends Controller
 
         $data = $request->except('image');
         $data['is_active'] = $request->has('is_active') ? true : false;
+        
+        // If product is not active, automatically set is_showcase to false
+        if (!$data['is_active']) {
+            $data['is_showcase'] = false;
+        } else {
+            $data['is_showcase'] = $request->has('is_showcase') ? true : false;
+        }
 
         if ($request->hasFile('image')) {
             $path = $request->file('image')->store('products', 'public');

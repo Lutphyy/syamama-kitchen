@@ -12,17 +12,24 @@ class CartController extends Controller
         $cart = session()->get('cart', []);
         $total = 0;
         $cartItems = [];
+        $validCart = []; // Track valid items
 
         foreach ($cart as $id => $item) {
             $product = Product::find($id);
-            if ($product) {
+            if ($product && $product->is_active) {
                 $cartItems[] = [
                     'product' => $product,
                     'quantity' => $item['quantity'],
                     'subtotal' => $product->price * $item['quantity'],
                 ];
                 $total += $product->price * $item['quantity'];
+                $validCart[$id] = $item; // Keep only valid items
             }
+        }
+
+        // Update session with only valid items (cleanup)
+        if (count($validCart) !== count($cart)) {
+            session()->put('cart', $validCart);
         }
 
         return view('cart.index', compact('cartItems', 'total'));

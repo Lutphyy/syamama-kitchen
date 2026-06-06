@@ -5,8 +5,11 @@
 <section class="section" style="padding-top:2rem;">
     <div class="container">
         <div class="section-header">
-            <h2>Menu Kami</h2>
-            <p>Temukan menu favoritmu di sini!</p>
+            <h2 class="showcase-title">
+                <span style="color:#047FD5;">Our</span>
+                <span style="color:#FA7302;">Menu</span>
+            </h2>
+            <p class="showcase-desc">Temukan menu favoritmu di sini!</p>
         </div>
 
         <!-- Category Filter -->
@@ -15,7 +18,7 @@
             @foreach($categories as $category)
                 <a href="{{ route('products.index', ['category' => $category->slug, 'search' => request('search'), 'sort' => request('sort')]) }}"
                    class="category-pill {{ request('category') == $category->slug ? 'active' : '' }}">
-                    {{ $category->icon }} {{ $category->name }} ({{ $category->products_count }})
+                    {{ $category->name }} ({{ $category->products_count }})
                 </a>
             @endforeach
         </div>
@@ -43,18 +46,18 @@
         @if($products->count() > 0)
             <div class="grid-4">
                 @foreach($products as $product)
-                    <div class="product-card fade-in">
+                    <div class="product-card fade-in {{ $product->stock <= 0 ? 'product-out-of-stock' : '' }}">
                         <a href="{{ route('products.show', $product->slug) }}">
                             <div class="product-image">
                                 @if($product->image)
                                     <img src="{{ asset('storage/' . $product->image) }}" alt="{{ $product->name }}">
                                 @else
-                                    {{ $product->category->icon ?? '' }}
+                                    <div style="background:var(--bg-warm);height:100%;display:flex;align-items:center;justify-content:center;color:var(--text-light);font-size:0.8rem;">No Image</div>
                                 @endif
                             </div>
                         </a>
                         <div class="product-body">
-                            <span class="product-category">{{ $product->category->icon ?? '' }} {{ $product->category->name ?? '' }}</span>
+                            <span class="product-category" style="background:#047FD5;color:white;">{{ $product->category->name ?? '' }}</span>
                             <h3 class="product-name">
                                 <a href="{{ route('products.show', $product->slug) }}">{{ $product->name }}</a>
                             </h3>
@@ -63,17 +66,20 @@
                                 <div>
                                     <span class="product-price">{{ $product->formatted_price }}</span>
                                     <br>
-                                    <span class="product-stock {{ $product->stock <= 5 ? 'stock-low' : '' }}">
-                                        {{ $product->stock > 0 ? 'Stok: ' . $product->stock : 'Habis' }}
+                                    <span class="text-sm text-light">
+                                        Stok: {{ $product->stock > 0 ? $product->stock : 'Habis' }}
                                     </span>
                                 </div>
                                 <form action="{{ route('cart.add') }}" method="POST">
                                     @csrf
                                     <input type="hidden" name="product_id" value="{{ $product->id }}">
                                     <input type="hidden" name="quantity" value="1">
-                                    <button type="submit" class="btn btn-primary btn-sm" {{ $product->stock <= 0 ? 'disabled' : '' }}>
-                                        {{ $product->stock > 0 ? '' : 'Habis' }}
-                                        @if($product->stock > 0)<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" style="width:16px;height:16px;"><path d="M11 9h2V6h3V4h-3V1h-2v3H8v2h3v3zm-4 9c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2zm10 0c-1.1 0-1.99.9-1.99 2s.89 2 1.99 2 2-.9 2-2-.9-2-2-2zm-9.83-3.25l.03-.12.9-1.63h7.45c.75 0 1.41-.41 1.75-1.03l3.58-6.49c.08-.14.12-.31.12-.48 0-.55-.45-1-1-1H5.21l-.94-2H1v2h2l3.6 7.59-1.35 2.45c-.16.28-.25.61-.25.96 0 1.1.9 2 2 2h12v-2H7.42c-.14 0-.25-.11-.25-.25z"/></svg>@endif
+                                    <button type="submit" class="btn btn-primary btn-sm" {{ $product->stock <= 0 ? 'disabled' : '' }} style="{{ $product->stock <= 0 ? 'background:#999;cursor:not-allowed;' : '' }}">
+                                        @if($product->stock > 0)
+                                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" style="width:16px;height:16px;"><path d="M11 9h2V6h3V4h-3V1h-2v3H8v2h3v3zm-4 9c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2zm10 0c-1.1 0-1.99.9-1.99 2s.89 2 1.99 2 2-.9 2-2-.9-2-2-2zm-9.83-3.25l.03-.12.9-1.63h7.45c.75 0 1.41-.41 1.75-1.03l3.58-6.49c.08-.14.12-.31.12-.48 0-.55-.45-1-1-1H5.21l-.94-2H1v2h2l3.6 7.59-1.35 2.45c-.16.28-.25.61-.25.96 0 1.1.9 2 2 2h12v-2H7.42c-.14 0-.25-.11-.25-.25z"/></svg>
+                                        @else
+                                            Habis
+                                        @endif
                                     </button>
                                 </form>
                             </div>

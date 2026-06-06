@@ -18,9 +18,6 @@
     <a href="{{ route('admin.orders.index', ['status' => 'pending']) }}" class="category-pill {{ request('status') == 'pending' ? 'active' : '' }}">
         Pending ({{ $statusCounts['pending'] }})
     </a>
-    <a href="{{ route('admin.orders.index', ['status' => 'processing']) }}" class="category-pill {{ request('status') == 'processing' ? 'active' : '' }}">
-        Proses ({{ $statusCounts['processing'] }})
-    </a>
     <a href="{{ route('admin.orders.index', ['status' => 'completed']) }}" class="category-pill {{ request('status') == 'completed' ? 'active' : '' }}">
         Selesai ({{ $statusCounts['completed'] }})
     </a>
@@ -39,7 +36,7 @@
 </form>
 
 <!-- Orders Table -->
-<div class="table-wrap">
+<div class="table-wrap desktop-table">
     <table class="table">
         <thead>
             <tr>
@@ -68,9 +65,9 @@
                         <span class="badge badge-{{ $order->status }}">
                             @switch($order->status)
                                 @case('pending') Pending @break
-                                @case('processing') Proses @break
                                 @case('completed') Selesai @break
                                 @case('cancelled') Batal @break
+                                @default Pending @break
                             @endswitch
                         </span>
                     </td>
@@ -82,7 +79,6 @@
                                 @csrf @method('PUT')
                                 <select name="status" class="form-control" style="padding:0.3rem 0.5rem; font-size:0.8rem; min-width:100px;" onchange="this.form.submit()">
                                     <option value="pending" {{ $order->status == 'pending' ? 'selected' : '' }}>Pending</option>
-                                    <option value="processing" {{ $order->status == 'processing' ? 'selected' : '' }}>Proses</option>
                                     <option value="completed" {{ $order->status == 'completed' ? 'selected' : '' }}>Selesai</option>
                                     <option value="cancelled" {{ $order->status == 'cancelled' ? 'selected' : '' }}>Batal</option>
                                 </select>
@@ -95,6 +91,59 @@
             @endforelse
         </tbody>
     </table>
+</div>
+
+<!-- Mobile Card View for Orders -->
+<div class="mobile-cards" style="grid-template-columns:1fr;">
+    @forelse($orders as $order)
+        <div class="mobile-card">
+            <div class="mobile-card-header" style="flex-direction:row;justify-content:space-between;align-items:flex-start;">
+                <div>
+                    <h4 style="margin:0 0 0.3rem 0;font-size:0.9rem;font-weight:800;">{{ $order->order_code }}</h4>
+                    <span class="badge badge-{{ $order->status }}" style="font-size:0.65rem;">
+                        @switch($order->status)
+                            @case('pending') Pending @break
+                            @case('completed') Selesai @break
+                            @case('cancelled') Batal @break
+                            @default Pending @break
+                        @endswitch
+                    </span>
+                </div>
+                <span class="text-primary font-bold" style="font-size:0.9rem;">{{ $order->formatted_total }}</span>
+            </div>
+            <div class="mobile-card-body">
+                <div class="mobile-card-row">
+                    <span class="text-light" style="font-size:0.75rem;">Pelanggan:</span>
+                    <span style="font-size:0.8rem;font-weight:600;">{{ $order->customer_name }}</span>
+                </div>
+                <div class="mobile-card-row">
+                    <span class="text-light" style="font-size:0.75rem;">Telepon:</span>
+                    <span style="font-size:0.75rem;">{{ $order->customer_phone }}</span>
+                </div>
+                <div class="mobile-card-row">
+                    <span class="text-light" style="font-size:0.75rem;">Item:</span>
+                    <span style="font-size:0.75rem;">{{ $order->items->count() }} item</span>
+                </div>
+                <div class="mobile-card-row">
+                    <span class="text-light" style="font-size:0.75rem;">Tanggal:</span>
+                    <span style="font-size:0.75rem;">{{ $order->created_at->format('d M Y H:i') }}</span>
+                </div>
+            </div>
+            <div class="mobile-card-actions" style="flex-direction:column;gap:0.5rem;">
+                <button class="btn btn-sm btn-secondary" onclick="showOrderDetail({{ json_encode($order->load('items')) }})" style="width:100%;">Lihat Detail</button>
+                <form action="{{ route('admin.orders.updateStatus', $order->id) }}" method="POST" style="width:100%;">
+                    @csrf @method('PUT')
+                    <select name="status" class="form-control" style="padding:0.5rem;font-size:0.8rem;width:100%;" onchange="this.form.submit()">
+                        <option value="pending" {{ $order->status == 'pending' ? 'selected' : '' }}>Pending</option>
+                        <option value="completed" {{ $order->status == 'completed' ? 'selected' : '' }}>Selesai</option>
+                        <option value="cancelled" {{ $order->status == 'cancelled' ? 'selected' : '' }}>Batal</option>
+                    </select>
+                </form>
+            </div>
+        </div>
+    @empty
+        <div style="text-align:center;padding:2rem;" class="text-light">Belum ada pesanan</div>
+    @endforelse
 </div>
 
 <div class="pagination-wrap">

@@ -2,9 +2,9 @@
 @section('title', 'Keranjang Belanja - Syamama Kitchen')
 
 @section('content')
-<section class="section" style="padding-top:2rem;">
+<section class="section" style="padding: 2rem 0; min-height: calc(100vh - 180px);">
     <div class="container">
-        <div class="section-header" style="text-align:left;">
+        <div class="section-header" style="text-align:left; margin-bottom: 1.5rem;">
             <h2>Keranjang Belanja</h2>
             <p>Review pesananmu sebelum checkout!</p>
         </div>
@@ -20,7 +20,7 @@
                                     @if($item['product']->image)
                                         <img src="{{ asset('storage/' . $item['product']->image) }}" alt="{{ $item['product']->name }}">
                                     @else
-                                        {{ $item['product']->category->icon ?? '' }}
+                                        <div style="background:var(--bg-warm);height:100%;display:flex;align-items:center;justify-content:center;color:var(--text-light);font-size:0.7rem;">No Image</div>
                                     @endif
                                 </div>
                                 <div class="cart-item-info">

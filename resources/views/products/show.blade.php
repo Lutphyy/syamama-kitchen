@@ -19,14 +19,14 @@
                 @if($product->image)
                     <img src="{{ asset('storage/' . $product->image) }}" alt="{{ $product->name }}">
                 @else
-                    {{ $product->category->icon ?? '' }}
+                    <div style="background:var(--bg-warm);height:300px;display:flex;align-items:center;justify-content:center;color:var(--text-light);border-radius:12px;">No Image</div>
                 @endif
             </div>
 
             <!-- Info -->
             <div class="detail-info">
-                <span class="product-category" style="font-size:0.9rem; padding:0.4rem 0.8rem;">
-                    {{ $product->category->icon ?? '' }} {{ $product->category->name ?? '' }}
+                <span class="product-category" style="font-size:0.9rem; padding:0.4rem 0.8rem; background:#047FD5; color:white;">
+                    {{ $product->category->name ?? '' }}
                 </span>
                 <h1 style="margin-top:0.8rem;">{{ $product->name }}</h1>
                 <div class="detail-price">{{ $product->formatted_price }}</div>
@@ -88,7 +88,7 @@
                                     @if($relProduct->image)
                                         <img src="{{ asset('storage/' . $relProduct->image) }}" alt="{{ $relProduct->name }}">
                                     @else
-                                        {{ $relProduct->category->icon ?? '' }}
+                                        <div style="background:var(--bg-warm);height:100%;display:flex;align-items:center;justify-content:center;color:var(--text-light);font-size:0.8rem;">No Image</div>
                                     @endif
                                 </div>
                             </a>

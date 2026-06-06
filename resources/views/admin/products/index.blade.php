@@ -14,7 +14,7 @@
         <select name="category" class="form-control" style="max-width:200px;">
             <option value="">Semua Kategori</option>
             @foreach($categories as $cat)
-                <option value="{{ $cat->id }}" {{ request('category') == $cat->id ? 'selected' : '' }}>{{ $cat->icon }} {{ $cat->name }}</option>
+                <option value="{{ $cat->id }}" {{ request('category') == $cat->id ? 'selected' : '' }}>{{ $cat->name }}</option>
             @endforeach
         </select>
         <button type="submit" class="btn btn-primary btn-sm">Cari</button>
@@ -22,7 +22,7 @@
 </div>
 
 <!-- Products Table -->
-<div class="table-wrap">
+<div class="table-wrap desktop-table">
     <table class="table">
         <thead>
             <tr>
@@ -43,7 +43,7 @@
                                 @if($product->image)
                                     <img src="{{ asset('storage/' . $product->image) }}" alt="" style="width:100%;height:100%;object-fit:cover;">
                                 @else
-                                    {{ $product->category->icon ?? '' }}
+                                    <span style="font-size:0.7rem;color:var(--text-light);">No Img</span>
                                 @endif
                             </div>
                             <div>
@@ -52,16 +52,14 @@
                             </div>
                         </div>
                     </td>
-                    <td><span class="badge badge-processing">{{ $product->category->icon ?? '' }} {{ $product->category->name ?? '-' }}</span></td>
+                    <td><span class="badge badge-processing">{{ $product->category->name ?? '-' }}</span></td>
                     <td class="font-bold text-primary">{{ $product->formatted_price }}</td>
                     <td>
-                        <span class="{{ $product->stock <= 5 ? 'text-danger font-bold' : '' }}">
-                            {{ $product->stock }}
-                        </span>
+                        <span class="text-light">{{ $product->stock }}</span>
                     </td>
                     <td>
                         @if($product->is_active)
-                            <span class="badge badge-completed">Aktif</span>
+                            <span class="badge badge-completed">Aktif{{ $product->is_showcase ? '/Show' : '' }}</span>
                         @else
                             <span class="badge badge-cancelled">Nonaktif</span>
                         @endif
@@ -81,6 +79,52 @@
             @endforelse
         </tbody>
     </table>
+</div>
+
+<!-- Mobile Card View -->
+<div class="mobile-cards">
+    @forelse($products as $product)
+        <div class="mobile-card">
+            <div class="mobile-card-header">
+                <div style="width:100%;height:80px;border-radius:8px;background:var(--bg-warm);display:flex;align-items:center;justify-content:center;overflow:hidden;">
+                    @if($product->image)
+                        <img src="{{ asset('storage/' . $product->image) }}" alt="" style="width:100%;height:100%;object-fit:cover;">
+                    @else
+                        <span style="font-size:0.7rem;color:var(--text-light);">No Img</span>
+                    @endif
+                </div>
+            </div>
+            <div class="mobile-card-body">
+                <h4 style="margin:0 0 0.3rem 0;font-size:0.85rem;line-height:1.3;">{{ Str::limit($product->name, 25) }}</h4>
+                <span class="badge badge-processing" style="font-size:0.65rem;padding:0.15rem 0.4rem;">{{ $product->category->name ?? '-' }}</span>
+                <div class="mobile-card-row" style="margin-top:0.5rem;">
+                    <span class="text-light" style="font-size:0.75rem;">Harga:</span>
+                    <span class="font-bold text-primary" style="font-size:0.8rem;">{{ $product->formatted_price }}</span>
+                </div>
+                <div class="mobile-card-row">
+                    <span class="text-light" style="font-size:0.75rem;">Stok:</span>
+                    <span class="text-light" style="font-size:0.75rem;">{{ $product->stock }}</span>
+                </div>
+                <div class="mobile-card-row">
+                    <span class="text-light" style="font-size:0.75rem;">Status:</span>
+                    @if($product->is_active)
+                        <span class="badge badge-completed" style="font-size:0.65rem;">Aktif{{ $product->is_showcase ? '/Show' : '' }}</span>
+                    @else
+                        <span class="badge badge-cancelled" style="font-size:0.65rem;">Nonaktif</span>
+                    @endif
+                </div>
+            </div>
+            <div class="mobile-card-actions">
+                <button class="btn btn-sm btn-secondary" onclick="editProduct({{ json_encode($product) }})" style="flex:1;">Edit</button>
+                <form action="{{ route('admin.products.destroy', $product->id) }}" method="POST" onsubmit="return confirm('Yakin hapus?');" style="flex:1;">
+                    @csrf @method('DELETE')
+                    <button type="submit" class="btn btn-sm btn-danger" style="width:100%;">Hapus</button>
+                </form>
+            </div>
+        </div>
+    @empty
+        <div style="grid-column:1/-1;text-align:center;padding:2rem;" class="text-light">Belum ada produk</div>
+    @endforelse
 </div>
 
 <div class="pagination-wrap">
@@ -105,7 +149,7 @@
                     <label class="form-label">Kategori *</label>
                     <select name="category_id" class="form-control" required>
                         @foreach($categories as $cat)
-                            <option value="{{ $cat->id }}">{{ $cat->icon }} {{ $cat->name }}</option>
+                            <option value="{{ $cat->id }}">{{ $cat->name }}</option>
                         @endforeach
                     </select>
                 </div>
@@ -158,7 +202,7 @@
                     <label class="form-label">Kategori *</label>
                     <select name="category_id" id="edit_category" class="form-control" required>
                         @foreach($categories as $cat)
-                            <option value="{{ $cat->id }}">{{ $cat->icon }} {{ $cat->name }}</option>
+                            <option value="{{ $cat->id }}">{{ $cat->name }}</option>
                         @endforeach
                     </select>
                 </div>
@@ -184,6 +228,10 @@
                     <input type="checkbox" name="is_active" value="1" id="edit_is_active" style="accent-color:var(--primary);">
                     <label for="edit_is_active">Aktifkan produk</label>
                 </div>
+                <div class="form-group" style="display:flex; align-items:center; gap:0.5rem;">
+                    <input type="checkbox" name="is_showcase" value="1" id="edit_is_showcase" style="accent-color:var(--secondary);">
+                    <label for="edit_is_showcase">Tampilkan di Product Showcase</label>
+                </div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-outline btn-sm" onclick="closeModal('editProductModal')">Batal</button>
@@ -207,6 +255,7 @@ function editProduct(product) {
     document.getElementById('edit_price').value = product.price;
     document.getElementById('edit_stock').value = product.stock;
     document.getElementById('edit_is_active').checked = product.is_active;
+    document.getElementById('edit_is_showcase').checked = product.is_showcase;
     openModal('editProductModal');
 }
 

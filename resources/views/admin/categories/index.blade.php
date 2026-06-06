@@ -8,12 +8,11 @@
 </div>
 
 <!-- Categories Grid -->
-<div class="grid-3">
+<div class="grid-3 desktop-grid">
     @forelse($categories as $category)
         <div class="card fade-in" style="padding:1.5rem;">
             <div class="flex items-center justify-between mb-2">
                 <div class="flex items-center gap-1">
-                    <span style="font-size:2rem;">{{ $category->icon }}</span>
                     <div>
                         <h3 style="font-size:1.1rem;">{{ $category->name }}</h3>
                         <span class="text-sm text-light">{{ $category->products_count }} produk</span>
@@ -43,6 +42,31 @@
     @endforelse
 </div>
 
+<!-- Mobile Cards for Categories -->
+<div class="mobile-cards">
+    @forelse($categories as $category)
+        <div class="mobile-card">
+            <div class="mobile-card-body">
+                <h4 style="margin:0 0 0.3rem 0;font-size:0.9rem;">{{ $category->name }}</h4>
+                <span class="text-sm text-light">{{ $category->products_count }} produk</span>
+                @if($category->description)
+                    <p class="text-sm text-light" style="margin:0.5rem 0;line-height:1.4;font-size:0.75rem;">{{ Str::limit($category->description, 50) }}</p>
+                @endif
+                <span class="badge badge-processing" style="font-size:0.65rem;margin-top:0.3rem;">{{ $category->slug }}</span>
+            </div>
+            <div class="mobile-card-actions">
+                <button class="btn btn-sm btn-secondary" onclick="editCategory({{ json_encode($category) }})" style="flex:1;">Edit</button>
+                <form action="{{ route('admin.categories.destroy', $category->id) }}" method="POST" onsubmit="return confirm('Yakin hapus?');" style="flex:1;">
+                    @csrf @method('DELETE')
+                    <button type="submit" class="btn btn-sm btn-danger" style="width:100%;">Hapus</button>
+                </form>
+            </div>
+        </div>
+    @empty
+        <div style="grid-column:1/-1;text-align:center;padding:2rem;" class="text-light">Belum ada kategori</div>
+    @endforelse
+</div>
+
 <!-- Add Modal -->
 <div class="modal-overlay" id="addCategoryModal">
     <div class="modal">
@@ -58,14 +82,10 @@
                     <input type="text" name="name" class="form-control" placeholder="contoh: Kue Kering" required>
                 </div>
                 <div class="form-group">
-                    <label class="form-label">Icon (emoji)</label>
-                    <input type="text" name="icon" class="form-control" placeholder="contoh: 🍪" value="🍰">
-                    <p class="text-sm text-light mt-1">Pilih emoji yang cocok: 🍪🍰🥐🥤🍱🌶️🧁🎂🍩</p>
-                </div>
-                <div class="form-group">
                     <label class="form-label">Deskripsi</label>
-                    <textarea name="description" class="form-control" placeholder="Deskripsi singkat kategori"></textarea>
+                    <textarea name="description" class="form-control" placeholder="Deskripsi singkat kategori" rows="3"></textarea>
                 </div>
+                <input type="hidden" name="icon" value="📦">
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-outline btn-sm" onclick="closeModal('addCategoryModal')">Batal</button>
@@ -90,13 +110,10 @@
                     <input type="text" name="name" id="editcat_name" class="form-control" required>
                 </div>
                 <div class="form-group">
-                    <label class="form-label">Icon (emoji)</label>
-                    <input type="text" name="icon" id="editcat_icon" class="form-control">
-                </div>
-                <div class="form-group">
                     <label class="form-label">Deskripsi</label>
-                    <textarea name="description" id="editcat_description" class="form-control"></textarea>
+                    <textarea name="description" id="editcat_description" class="form-control" rows="3"></textarea>
                 </div>
+                <input type="hidden" name="icon" id="editcat_icon" value="📦">
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-outline btn-sm" onclick="closeModal('editCategoryModal')">Batal</button>
