@@ -211,12 +211,31 @@ php artisan key:generate
 # Run migrations
 php artisan migrate --force
 
-# Create storage link
-php artisan storage:link
+# ⚠️ STORAGE LINK - Hostinger disable exec(), jadi php artisan storage:link TIDAK BISA!
+# Gunakan cara MANUAL via File Manager atau SSH:
+
+# CARA 1 - Via File Manager (RECOMMENDED untuk pemula):
+# 1. Buka File Manager → public_html/public
+# 2. Klik "Create Folder" → buat folder bernama "storage"
+# 3. Klik kanan folder "storage" → Delete (hapus dulu)
+# 4. Sekarang buat Symbolic Link:
+#    - Jika ada opsi "Create Symlink", gunakan:
+#      Target: ../storage/app/public
+#      Link name: storage
+# 5. Jika tidak ada opsi symlink, gunakan CARA 2 (SSH)
+
+# CARA 2 - Via SSH (jika CARA 1 tidak ada opsi symlink):
+cd public_html/public
+ln -s ../storage/app/public storage
+
+# Verify storage link berhasil
+ls -la public/storage
+# Harus muncul: storage -> ../storage/app/public
 
 # Set permissions
 chmod -R 755 storage
 chmod -R 755 bootstrap/cache
+chmod -R 755 public
 
 # Cache production
 php artisan config:cache
@@ -228,12 +247,30 @@ php artisan view:cache
 
 ### **PHASE 4: DOMAIN CONFIGURATION**
 
-#### 4.1. Point Domain ke Public Folder
+#### 4.1. Fix "Forbidden" Error - Point Domain ke Public Folder
 ```
-PENTING! Domain harus point ke /public, bukan root
+⚠️ ERROR "Forbidden" muncul karena domain syamama.shop point ke root public_html,
+   padahal Laravel harus diakses via folder /public
 
-1. hPanel → syamama.shop → Advanced → htaccess
-2. Create/Edit .htaccess di public_html:
+Ada 3 SOLUSI (pilih salah satu):
+```
+
+**SOLUSI 1 - Change Document Root (RECOMMENDED - paling mudah):**
+```
+1. Login hPanel → syamama.shop
+2. Klik "Advanced" atau "Settings"
+3. Cari "Document Root" atau "Web Root"
+4. Ubah dari: /public_html
+   Menjadi: /public_html/public
+5. Save
+6. Wait 1-2 minutes, refresh website
+```
+
+**SOLUSI 2 - Create .htaccess di Root (jika Document Root tidak bisa diubah):**
+```
+1. File Manager → public_html (root folder)
+2. Create New File: .htaccess
+3. Paste code ini:
 ```
 
 ```apache
@@ -243,11 +280,28 @@ PENTING! Domain harus point ke /public, bukan root
 </IfModule>
 ```
 
-**ATAU via cPanel:**
 ```
-1. Domains → syamama.shop
-2. Document Root: /public_html/public
-3. Save
+4. Save
+5. Refresh website
+```
+
+**SOLUSI 3 - Pindah semua file public/ ke root (NOT RECOMMENDED - kurang aman):**
+```
+1. File Manager → public_html/public
+2. Select All files dalam folder public/
+3. Move ke: /public_html (root)
+4. Edit index.php di root:
+   - Cari: __DIR__.'/../vendor/autoload.php'
+   - Ganti: __DIR__.'/vendor/autoload.php'
+   - Cari: __DIR__.'/../bootstrap/app.php'
+   - Ganti: __DIR__.'/bootstrap/app.php'
+5. Refresh website
+```
+
+**Verify:**
+```
+Buka: https://syamama.shop
+Harus muncul homepage, bukan "Forbidden" atau listing files
 ```
 
 #### 4.2. Setup SSL (HTTPS)
@@ -346,6 +400,34 @@ php artisan view:cache
 ---
 
 ## 🐛 TROUBLESHOOTING
+
+### ❌ Error: "Call to undefined function exec()" saat storage:link
+```
+PROBLEM: Hostinger disable fungsi exec() untuk keamanan
+SOLUTION: Gunakan manual symlink (lihat PHASE 3.2)
+
+Via SSH:
+cd public_html/public
+ln -s ../storage/app/public storage
+
+Via File Manager:
+1. public_html/public → Create Symlink
+2. Target: ../storage/app/public
+3. Name: storage
+```
+
+### ❌ Error: "Forbidden" - You don't have permission to access
+```
+PROBLEM: Domain point ke root, bukan ke /public folder
+SOLUTION: Change Document Root (lihat PHASE 4.1)
+
+Quick Fix:
+1. hPanel → Settings → Document Root
+2. Ubah: /public_html/public
+3. Save & refresh
+
+Alternative: Buat .htaccess di root (lihat PHASE 4.1 - SOLUSI 2)
+```
 
 ### Error 500 - Internal Server Error
 ```bash

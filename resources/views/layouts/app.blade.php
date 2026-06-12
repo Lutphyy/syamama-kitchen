@@ -25,9 +25,14 @@
         <button class="mobile-toggle" onclick="toggleMenu()">☰</button>
 
         <ul class="navbar-menu" id="navMenu">
-            <li><a href="{{ route('home') }}" class="{{ request()->routeIs('home') ? 'active' : '' }}">Beranda</a></li>
-            <li><a href="{{ route('products.index') }}" class="{{ request()->routeIs('products.*') ? 'active' : '' }}">Produk</a></li>
+            <li><a href="{{ request()->is('/') ? '#beranda' : route('home') . '#beranda' }}" class="{{ request()->routeIs('home') ? 'active' : '' }}">Beranda</a></li>
+            <li><a href="{{ request()->is('/') ? '#testimoni' : route('home') . '#testimoni' }}">Testimoni</a></li>
+            <li><a href="{{ request()->is('/') ? '#faq' : route('home') . '#faq' }}">FAQ</a></li>
+            <li><a href="{{ request()->is('/') ? '#kontak' : route('home') . '#kontak' }}">Kontak</a></li>
+            <li class="mobile-shop-link"><a href="{{ route('products.index') }}" class="btn-shop-mobile {{ request()->routeIs('products.*') ? 'active' : '' }}">Belanja Sekarang</a></li>
         </ul>
+
+        <a href="{{ route('products.index') }}" class="btn-shop {{ request()->routeIs('products.*') ? 'active' : '' }}">Belanja Sekarang</a>
     </nav>
 
     <!-- Flash Messages -->
@@ -84,6 +89,23 @@
         function toggleMenu() {
             document.getElementById('navMenu').classList.toggle('open');
         }
+        
+        // Auto close mobile menu when any link is clicked
+        document.addEventListener('DOMContentLoaded', function() {
+            const navMenu = document.getElementById('navMenu');
+            const navLinks = navMenu.querySelectorAll('a');
+            
+            navLinks.forEach(link => {
+                link.addEventListener('click', function() {
+                    // Close menu on mobile when any link is clicked
+                    if (window.innerWidth <= 768) {
+                        navMenu.classList.remove('open');
+                    }
+                });
+            });
+        });
+        
+        // Navbar active state untuk anchor links
         window.addEventListener('scroll', function() {
             const nav = document.getElementById('navbar');
             if (window.scrollY > 50) nav.classList.add('scrolled');
@@ -92,12 +114,74 @@
             // Show WA fab after hero is covered by content-overlay
             const fabWa = document.getElementById('fabWa');
             const hero = document.querySelector('.hero');
+            const contactSection = document.getElementById('kontak');
+            
             if (hero) {
                 const heroBottom = hero.getBoundingClientRect().bottom;
                 if (heroBottom <= 60) fabWa.classList.add('visible');
                 else fabWa.classList.remove('visible');
             }
+
+            // Hide FAB WA when contact section is visible
+            if (contactSection && fabWa) {
+                const contactRect = contactSection.getBoundingClientRect();
+                const windowHeight = window.innerHeight;
+                
+                // If contact section is in viewport (visible)
+                if (contactRect.top < windowHeight && contactRect.bottom > 0) {
+                    fabWa.classList.add('hide-on-contact');
+                } else {
+                    fabWa.classList.remove('hide-on-contact');
+                }
+            }
+
+            // Active state untuk navbar saat di section kontak, faq, testimoni, atau beranda
+            const navLinks = document.querySelectorAll('.navbar-menu a');
+            const berandaSection = document.getElementById('beranda');
+            const testimoniSection = document.getElementById('testimoni');
+            const faqSection = document.getElementById('faq');
+            
+            let currentSection = 'beranda';
+            
+            // Check Testimoni section
+            if (testimoniSection) {
+                const testimoniRect = testimoniSection.getBoundingClientRect();
+                if (testimoniRect.top < 200 && testimoniRect.bottom > 200) {
+                    currentSection = 'testimoni';
+                }
+            }
+            
+            // Check FAQ section
+            if (faqSection) {
+                const faqRect = faqSection.getBoundingClientRect();
+                if (faqRect.top < 200 && faqRect.bottom > 200) {
+                    currentSection = 'faq';
+                }
+            }
+            
+            // Check Contact section (has priority over FAQ)
+            if (contactSection) {
+                const contactRect = contactSection.getBoundingClientRect();
+                if (contactRect.top < 200 && contactRect.bottom > 200) {
+                    currentSection = 'kontak';
+                }
+            }
+            
+            // Update active states
+            navLinks.forEach(link => {
+                const href = link.getAttribute('href');
+                if (href.includes('#kontak')) {
+                    link.classList.toggle('active', currentSection === 'kontak');
+                } else if (href.includes('#faq')) {
+                    link.classList.toggle('active', currentSection === 'faq');
+                } else if (href.includes('#testimoni')) {
+                    link.classList.toggle('active', currentSection === 'testimoni');
+                } else if (href.includes('#beranda')) {
+                    link.classList.toggle('active', currentSection === 'beranda');
+                }
+            });
         });
+        
         // Auto-hide alerts
         setTimeout(() => {
             document.querySelectorAll('.alert').forEach(el => {
@@ -107,6 +191,7 @@
                 setTimeout(() => el.remove(), 500);
             });
         }, 4000);
+        
         // Scroll reveal - repeats
         const revealObserver = new IntersectionObserver((entries) => {
             entries.forEach(entry => {

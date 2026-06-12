@@ -167,4 +167,29 @@ class OrderController extends Controller
             ->header('Content-Type', 'application/vnd.ms-excel')
             ->header('Content-Disposition', 'attachment; filename="' . $filename . '"');
     }
+
+    public function exportPdf(Request $request)
+    {
+        $query = Order::with('items');
+
+        if ($request->has('status') && $request->status != '') {
+            $query->where('status', $request->status);
+        }
+        if ($request->has('date') && $request->date != '') {
+            $query->whereDate('created_at', $request->date);
+        }
+
+        $orders = $query->latest()->get();
+
+        $pdf = \Barryvdh\DomPDF\Facade\Pdf::loadView('admin.orders.pdf', [
+            'orders' => $orders,
+            'exportDate' => now()->format('d F Y H:i'),
+        ]);
+
+        $pdf->setPaper('A4', 'landscape');
+        
+        $filename = 'pesanan_' . date('Y-m-d_His') . '.pdf';
+
+        return $pdf->download($filename);
+    }
 }

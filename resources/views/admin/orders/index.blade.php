@@ -4,10 +4,16 @@
 @section('content')
 <div class="admin-header">
     <h1>Kelola Pesanan</h1>
-    <a href="{{ route('admin.orders.export', request()->all()) }}" class="btn btn-sm btn-secondary">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" style="width:14px;height:14px;margin-right:4px;"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg>
-        Export CSV
-    </a>
+    <div style="display:flex; gap:0.5rem;">
+        <a href="{{ route('admin.orders.export', request()->all()) }}" class="btn btn-sm btn-secondary">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" style="width:14px;height:14px;margin-right:4px;"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg>
+            Export CSV
+        </a>
+        <a href="{{ route('admin.orders.exportPdf', request()->all()) }}" class="btn btn-sm btn-danger">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" style="width:14px;height:14px;margin-right:4px;"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg>
+            Export PDF
+        </a>
+    </div>
 </div>
 
 <!-- Status Tabs -->

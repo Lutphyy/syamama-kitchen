@@ -2,7 +2,7 @@
 @section('title', 'Keranjang Belanja - Syamama Kitchen')
 
 @section('content')
-<section class="section" style="padding: 2rem 0; min-height: calc(100vh - 180px);">
+<section class="section" style="padding: 2rem 0 4rem 0; min-height: calc(100vh - 160px);">
     <div class="container">
         <div class="section-header" style="text-align:left; margin-bottom: 1.5rem;">
             <h2>Keranjang Belanja</h2>
