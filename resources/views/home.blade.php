@@ -81,6 +81,118 @@
 </section>
 @endif
 
+<!-- About Us Section -->
+<section class="about-section" id="tentang">
+    <div class="container">
+        <div class="about-content">
+            <!-- Header -->
+            <div class="about-header fade-in">
+                <h2 class="showcase-title" style="color:white; text-align:center;">
+                    <span style="color:#FA7302;">Tentang</span><br>
+                    <span style="color:#047FD5;">Kami</span>
+                </h2>
+                <p class="showcase-desc" style="color:rgba(255,255,255,0.9); text-align:center; max-width:700px; margin:0 auto 3rem;">Dari Dapur Rumah, Hadir untuk Kamu.</p>
+            </div>
+
+            <!-- Story & Images -->
+            <div class="about-story">
+                <div class="about-images fade-in">
+                    <div class="about-image-main">
+                        <img src="{{ asset('images/about1.webp') }}" alt="Syamama Kitchen">
+                    </div>
+                    <div class="about-image-floating">
+                        <img src="{{ asset('images/about2.webp') }}" alt="Produk Syamama Kitchen">
+                    </div>
+                </div>
+
+                <div class="about-text fade-in">
+                    <p>Syamama Kitchen adalah usaha kuliner rumahan yang lahir dari semangat sederhana menghadirkan makanan dan minuman berkualitas dengan harga yang terjangkau untuk semua kalangan. Didirikan oleh Ibu Garnis Ayu sekitar empat tahun lalu di Tanjungpinang, Kepulauan Riau, usaha ini bermula dari lingkungan kecil keluarga, teman, dan tetangga sekitar. Seiring waktu, kepercayaan pelanggan terus bertumbuh hingga Syamama Kitchen menjadi salah satu pilihan kuliner homemade yang dikenal di Kota Tanjungpinang.</p>
+                    
+                    <p>Yang membuat Syamama Kitchen berbeda adalah komitmennya pada bahan-bahan alami pilihan. Beberapa produk minumannya bahkan menggunakan pemanis alami Stevia 100% tanpa gula dan tanpa pemanis buatan sehingga tetap sehat dan menyegarkan. Semua produk dibuat fresh dari dapur sendiri, tanpa pengawet berbahaya, dengan harga mulai dari Rp15.000-an saja.</p>
+                </div>
+            </div>
+
+            <!-- Value Boxes -->
+            <div class="value-boxes fade-in">
+                <div class="value-box">
+                    <div class="value-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" style="width:32px;height:32px;">
+                            <path d="M12 3L4 9v12h16V9l-8-6zm0 2.236L18 9.708V19H6V9.708L12 5.236zM8 13h8v2H8v-2z"/>
+                        </svg>
+                    </div>
+                    <h4>100% Homemade</h4>
+                    <p>Dibuat fresh langsung dari dapur Syamama Kitchen</p>
+                </div>
+
+                <div class="value-box">
+                    <div class="value-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" style="width:32px;height:32px;">
+                            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                        </svg>
+                    </div>
+                    <h4>Bahan Alami</h4>
+                    <p>Beberapa produk menggunakan pemanis alami Stevia, tanpa gula tambahan</p>
+                </div>
+
+                <div class="value-box">
+                    <div class="value-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" style="width:32px;height:32px;">
+                            <path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10 10-4.5 10-10S17.5 2 12 2zm1.41 16.09V20h-2.67v-1.93c-1.71-.36-3.16-1.46-3.27-3.4h1.96c.1 1.05.82 1.87 2.65 1.87 1.96 0 2.4-.98 2.4-1.59 0-.83-.44-1.61-2.67-2.14-2.48-.6-4.18-1.62-4.18-3.67 0-1.72 1.39-2.84 3.11-3.21V4h2.67v1.95c1.86.45 2.79 1.86 2.85 3.39H14.3c-.05-1.11-.64-1.87-2.22-1.87-1.5 0-2.4.68-2.4 1.64 0 .84.65 1.39 2.67 1.94s4.18 1.36 4.18 3.85c0 1.89-1.44 2.98-3.12 3.19z"/>
+                        </svg>
+                    </div>
+                    <h4>Harga Bersahabat</h4>
+                    <p>Kualitas terjaga, harga tetap terjangkau mulai Rp15.000-an</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Testimonials Section -->
+<section class="section" id="testimoni" style="background:var(--bg-warm);">
+    <div class="container">
+        <div class="section-header-center fade-in">
+            <h2 class="showcase-title">
+                <span style="color:#047FD5;">Ulasan</span><br>
+                <span style="color:#FA7302;">Pelanggan</span>
+            </h2>
+            <p class="showcase-desc">Beginilah cerita kepuasan dari pelanggan.</p>
+        </div>
+
+        <div class="testimonials-grid">
+            <div class="testimonial-card fade-in" style="animation-delay:0s;">
+                <div class="testimonial-text">
+                    <p>"Milk tea-nya enak banget, manisnya pas dan ga bikin eneg. Udah langganan dari setahun lalu dan rasanya konsisten terus!"</p>
+                </div>
+                <div class="testimonial-author">
+                    <h4>Bang Adriansyah</h4>
+                    <span>Pelanggan Setia Syamama Kitchen</span>
+                </div>
+            </div>
+
+            <div class="testimonial-card fade-in" style="animation-delay:0.1s;">
+                <div class="testimonial-text">
+                    <p>"Pesan buat acara keluarga, responsnya cepat dan produknya rapi. Semua pada suka, pasti order lagi!"</p>
+                </div>
+                <div class="testimonial-author">
+                    <h4>Ibu Pujiastuti</h4>
+                    <span>Pelanggan Syamama Kitchen</span>
+                </div>
+            </div>
+
+            <div class="testimonial-card fade-in" style="animation-delay:0.2s;">
+                <div class="testimonial-text">
+                    <p>"Harganya terjangkau tapi rasanya ga kalah sama kafe-kafe. Favorit aku Lemongrass Tea-nya!"</p>
+                </div>
+                <div class="testimonial-author">
+                    <h4>Pak Darno</h4>
+                    <span>Pelanggan Syamama Kitchen</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
 <!-- Why Choose Us Section -->
 <section class="section" style="background:var(--bg-warm);">
     <div class="container">
@@ -131,46 +243,6 @@
         </div>
     </div>
 </section>
-
-<!-- Testimonials Section -->
-<section class="section" id="testimoni" style="background:var(--bg-warm);">
-    <div class="container">
-        <div class="section-header-center fade-in">
-            <h2 class="showcase-title">
-                <span style="color:#047FD5;">Ulasan</span><br>
-                <span style="color:#FA7302;">Pelanggan</span>
-            </h2>
-            <p class="showcase-desc">Beginilah cerita kepuasan dari pelanggan.</p>
-        </div>
-
-        <div class="testimonials-grid">
-            <div class="testimonial-card fade-in" style="animation-delay:0s;">
-                <div class="testimonial-text">
-                    <p>Testimoni 1</p>
-                </div>
-                <div class="testimonial-author">
-                    <h4>Nama 1</h4>
-                    <span>Pekerjaan 1</span>
-                </div>
-            </div>
-
-            <div class="testimonial-card fade-in" style="animation-delay:0.1s;">
-                <div class="testimonial-text">
-                    <p>Testimoni 2</p>
-                </div>
-                <div class="testimonial-author">
-                    <h4>Nama 2</h4>
-                    <span>Pekerjaan 2</span>
-                </div>
-            </div>
-
-            <div class="testimonial-card fade-in" style="animation-delay:0.2s;">
-                <div class="testimonial-text">
-                    <p>Testimoni 3</p>
-                </div>
-                <div class="testimonial-author">
-                    <h4>Nama 3</h4>
-                    <span>Pekerjaan 3</span>
                 </div>
             </div>
         </div>
@@ -189,53 +261,105 @@
                 <p class="showcase-desc">Jawaban atas pertanyaan seputar produk dan layanan kami.</p>
             </div>
 
-            <div class="faq-container fade-in">
-                <div class="faq-item">
-                <button class="faq-question" onclick="toggleFaq(0)">
-                    <span>Question 1</span>
-                    <svg class="faq-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
-                        <path d="M7 10l5 5 5-5z"/>
+            <div class="faq-carousel-wrapper">
+                <!-- Carousel Navigation Buttons -->
+                <button class="faq-carousel-btn faq-carousel-prev" onclick="slideFaq(-1)">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" style="width:24px;height:24px;">
+                        <path d="M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z"/>
                     </svg>
                 </button>
-                <div class="faq-answer">
-                    <p>Answer 1</p>
-                </div>
-            </div>
 
-            <div class="faq-item">
-                <button class="faq-question" onclick="toggleFaq(1)">
-                    <span>Question 2</span>
-                    <svg class="faq-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
-                        <path d="M7 10l5 5 5-5z"/>
-                    </svg>
-                </button>
-                <div class="faq-answer">
-                    <p>Answer 2</p>
-                </div>
-            </div>
+                <div class="faq-container fade-in" id="faqContainer">
+                    <div class="faq-item">
+                        <button class="faq-question" onclick="toggleFaq(0)">
+                            <span>Bagaimana cara memesan produk Syamama Kitchen?</span>
+                            <svg class="faq-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M7 10l5 5 5-5z"/>
+                            </svg>
+                        </button>
+                        <div class="faq-answer">
+                            <p>Kamu bisa langsung klik tombol "Pesan via WhatsApp" di halaman produk yang kamu inginkan. Nanti pesan otomatis terisi sendiri, tinggal kirim ke kami!</p>
+                        </div>
+                    </div>
 
-            <div class="faq-item">
-                <button class="faq-question" onclick="toggleFaq(2)">
-                    <span>Question 3</span>
-                    <svg class="faq-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
-                        <path d="M7 10l5 5 5-5z"/>
-                    </svg>
-                </button>
-                <div class="faq-answer">
-                    <p>Answer 3</p>
-                </div>
-            </div>
+                    <div class="faq-item">
+                        <button class="faq-question" onclick="toggleFaq(1)">
+                            <span>Apakah bisa pesan dalam jumlah banyak untuk acara?</span>
+                            <svg class="faq-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M7 10l5 5 5-5z"/>
+                            </svg>
+                        </button>
+                        <div class="faq-answer">
+                            <p>Bisa banget! Syamama Kitchen melayani pesanan dalam jumlah besar untuk berbagai acara. Hubungi kami lebih awal ya supaya kami bisa menyiapkan pesananmu dengan baik.</p>
+                        </div>
+                    </div>
 
-            <div class="faq-item">
-                <button class="faq-question" onclick="toggleFaq(3)">
-                    <span>Question 4</span>
-                    <svg class="faq-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
-                        <path d="M7 10l5 5 5-5z"/>
+                    <div class="faq-item">
+                        <button class="faq-question" onclick="toggleFaq(2)">
+                            <span>Berapa lama pesanan diproses?</span>
+                            <svg class="faq-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M7 10l5 5 5-5z"/>
+                            </svg>
+                        </button>
+                        <div class="faq-answer">
+                            <p>Setelah pesanan dikonfirmasi dan pembayaran diterima, produk kami siapkan sesuai jadwal yang sudah disepakati bersama.</p>
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <button class="faq-question" onclick="toggleFaq(3)">
+                            <span>Bagaimana cara pembayarannya?</span>
+                            <svg class="faq-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M7 10l5 5 5-5z"/>
+                            </svg>
+                        </button>
+                        <div class="faq-answer">
+                            <p>Pembayaran bisa dilakukan melalui transfer bank atau QRIS. Detail pembayaran akan diberikan oleh admin setelah pesanan dikonfirmasi melalui WhatsApp.</p>
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <button class="faq-question" onclick="toggleFaq(4)">
+                            <span>Apakah produk Syamama Kitchen mengandung pengawet?</span>
+                            <svg class="faq-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M7 10l5 5 5-5z"/>
+                            </svg>
+                        </button>
+                        <div class="faq-answer">
+                            <p>Tidak. Semua produk kami dibuat fresh dari dapur sendiri tanpa pengawet berbahaya. Beberapa produk minuman kami bahkan menggunakan pemanis alami Stevia 100% sehat dan menyegarkan.</p>
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <button class="faq-question" onclick="toggleFaq(5)">
+                            <span>Apakah ada menu selain yang ada di katalog website?</span>
+                            <svg class="faq-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M7 10l5 5 5-5z"/>
+                            </svg>
+                        </button>
+                        <div class="faq-answer">
+                            <p>Ada! Menu di website adalah produk unggulan yang selalu tersedia setiap hari. Untuk menu lain seperti brownies, pudding, dan mochi bites bisa dipesan khusus (made by order). Tanyakan langsung ke kami via WhatsApp ya!</p>
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <button class="faq-question" onclick="toggleFaq(6)">
+                            <span>Produk tahan berapa lama setelah diterima?</span>
+                            <svg class="faq-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M7 10l5 5 5-5z"/>
+                            </svg>
+                        </button>
+                        <div class="faq-answer">
+                            <p>Karena dibuat fresh tanpa pengawet, produk kami sebaiknya dikonsumsi di hari yang sama untuk menjaga kualitas dan kesegaran terbaik.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <button class="faq-carousel-btn faq-carousel-next" onclick="slideFaq(1)">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" style="width:24px;height:24px;">
+                        <path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"/>
                     </svg>
                 </button>
-                <div class="faq-answer">
-                    <p>Answer 4</p>
-                </div>
             </div>
         </div>
     </div>
@@ -261,6 +385,30 @@
                     <div class="contact-text">
                         <h4>Email</h4>
                         <p><a href="mailto:{{ env('CONTACT_EMAIL') }}" style="color:var(--text-dark);">{{ env('CONTACT_EMAIL') }}</a></p>
+                    </div>
+                </div>
+
+                <div class="contact-item">
+                    <div class="contact-icon" style="background:#E1306C;color:white;">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" style="width:24px;height:24px;">
+                            <path d="M7.8 2h8.4C19.4 2 22 4.6 22 7.8v8.4c0 3.2-2.6 5.8-5.8 5.8H7.8C4.6 22 2 19.4 2 16.2V7.8C2 4.6 4.6 2 7.8 2m-.2 2C5.6 4 4 5.6 4 7.6v8.8C4 18.4 5.6 20 7.6 20h8.8c2 0 3.6-1.6 3.6-3.6V7.6C20 5.6 18.4 4 16.4 4H7.6m9.65 1.5c.69 0 1.25.56 1.25 1.25s-.56 1.25-1.25 1.25-1.25-.56-1.25-1.25.56-1.25 1.25-1.25M12 7c2.76 0 5 2.24 5 5s-2.24 5-5 5-5-2.24-5-5 2.24-5 5-5m0 2c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/>
+                        </svg>
+                    </div>
+                    <div class="contact-text">
+                        <h4>Instagram</h4>
+                        <p><a href="https://instagram.com/syamama.kitchen" target="_blank" style="color:var(--text-dark);">@syamama.kitchen</a></p>
+                    </div>
+                </div>
+
+                <div class="contact-item">
+                    <div class="contact-icon" style="background:#047FD5;color:white;">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" style="width:24px;height:24px;">
+                            <path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10 10-4.5 10-10S17.5 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm.5-13H11v6l5.2 3.2.8-1.3-4.5-2.7V7z"/>
+                        </svg>
+                    </div>
+                    <div class="contact-text">
+                        <h4>Jam Operasional</h4>
+                        <p>Setiap Hari 09.00 - 20.00 WIB</p>
                     </div>
                 </div>
 
@@ -346,6 +494,21 @@ function toggleFaq(index) {
     if (!isOpen) {
         clickedItem.classList.add('active');
     }
+}
+
+// FAQ Vertical Carousel
+function slideFaq(direction) {
+    const container = document.getElementById('faqContainer');
+    if (!container) return;
+    
+    const itemHeight = container.querySelector('.faq-item').offsetHeight;
+    const gap = 16; // 1rem gap
+    const scrollAmount = (itemHeight + gap) * direction;
+    
+    container.scrollBy({
+        top: scrollAmount,
+        behavior: 'smooth'
+    });
 }
 </script>
 @endsection

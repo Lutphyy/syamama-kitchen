@@ -26,6 +26,7 @@
 
         <ul class="navbar-menu" id="navMenu">
             <li><a href="{{ request()->is('/') ? '#beranda' : route('home') . '#beranda' }}" class="{{ request()->routeIs('home') ? 'active' : '' }}">Beranda</a></li>
+            <li><a href="{{ request()->is('/') ? '#tentang' : route('home') . '#tentang' }}">Tentang Kami</a></li>
             <li><a href="{{ request()->is('/') ? '#testimoni' : route('home') . '#testimoni' }}">Testimoni</a></li>
             <li><a href="{{ request()->is('/') ? '#faq' : route('home') . '#faq' }}">FAQ</a></li>
             <li><a href="{{ request()->is('/') ? '#kontak' : route('home') . '#kontak' }}">Kontak</a></li>
@@ -135,13 +136,22 @@
                 }
             }
 
-            // Active state untuk navbar saat di section kontak, faq, testimoni, atau beranda
+            // Active state untuk navbar saat di section kontak, faq, testimoni, tentang, atau beranda
             const navLinks = document.querySelectorAll('.navbar-menu a');
             const berandaSection = document.getElementById('beranda');
+            const tentangSection = document.getElementById('tentang');
             const testimoniSection = document.getElementById('testimoni');
             const faqSection = document.getElementById('faq');
             
             let currentSection = 'beranda';
+            
+            // Check Tentang section
+            if (tentangSection) {
+                const tentangRect = tentangSection.getBoundingClientRect();
+                if (tentangRect.top < 200 && tentangRect.bottom > 200) {
+                    currentSection = 'tentang';
+                }
+            }
             
             // Check Testimoni section
             if (testimoniSection) {
@@ -176,6 +186,8 @@
                     link.classList.toggle('active', currentSection === 'faq');
                 } else if (href.includes('#testimoni')) {
                     link.classList.toggle('active', currentSection === 'testimoni');
+                } else if (href.includes('#tentang')) {
+                    link.classList.toggle('active', currentSection === 'tentang');
                 } else if (href.includes('#beranda')) {
                     link.classList.toggle('active', currentSection === 'beranda');
                 }
