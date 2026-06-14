@@ -50,8 +50,16 @@
     padding: 0;
 }
 
+/* Prevent horizontal overflow globally */
+html, body {
+    max-width: 100%;
+    overflow-x: hidden;
+}
+
 html {
     scroll-behavior: smooth;
+    overflow-x: hidden;
+    width: 100%;
 }
 
 body {
@@ -60,6 +68,19 @@ body {
     color: var(--text-dark);
     line-height: 1.6;
     overflow-x: hidden;
+    width: 100%;
+    max-width: 100vw;
+    position: relative;
+}
+
+main {
+    width: 100%;
+    overflow-x: hidden;
+}
+
+/* Ensure all direct children don't overflow */
+body > * {
+    max-width: 100vw;
 }
 
 a {
@@ -107,6 +128,8 @@ h6 {
     margin: 0 auto;
     border-radius: var(--radius-lg);
     box-shadow: var(--shadow-sm);
+    width: calc(100% - 2rem);
+    box-sizing: border-box;
 }
 
 .navbar.scrolled {
@@ -118,6 +141,8 @@ body::before {
     content: '';
     display: block;
     height: 1rem;
+    width: 100%;
+    box-sizing: border-box;
 }
 
 .navbar-brand {
@@ -265,6 +290,11 @@ body::before {
         display: flex;
     }
 
+    .navbar {
+        width: calc(100% - 1rem);
+        padding: 0.2rem 1rem;
+    }
+
     .navbar-menu {
         display: none;
         position: absolute;
@@ -277,6 +307,8 @@ body::before {
         box-shadow: var(--shadow-lg);
         border-radius: 0 0 var(--radius-lg) var(--radius-lg);
         transform: none;
+        width: 100%;
+        box-sizing: border-box;
     }
 
     .navbar-menu.open {
@@ -330,6 +362,14 @@ body::before {
     max-width: 1300px;
     margin: 0 auto;
     padding: 0 2rem;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+@media (max-width: 768px) {
+    .container {
+        padding: 0 1rem;
+    }
 }
 
 /* ---- Buttons ---- */
@@ -607,6 +647,8 @@ body::before {
 /* ---- Hero Section ---- */
 .hero-wrapper {
     position: relative;
+    width: 100%;
+    overflow-x: hidden;
 }
 
 .hero {
@@ -619,6 +661,7 @@ body::before {
     display: flex;
     align-items: center;
     z-index: 0;
+    width: 100%;
 }
 
 /* Hero Image - Desktop: Left side with blue border */
@@ -831,11 +874,25 @@ body::before {
     grid-template-columns: 1fr 2fr;
     gap: 4rem;
     align-items: start;
+    width: 100%;
+    max-width: 100%;
 }
 
 /* Reverse layout: cards left, title right */
 .showcase-layout-reverse {
     grid-template-columns: 2fr 1fr;
+}
+
+@media (max-width: 1200px) {
+    .showcase-layout {
+        gap: 2rem;
+    }
+}
+
+@media (max-width: 992px) {
+    .showcase-layout {
+        gap: 1.5rem;
+    }
 }
 
 .showcase-header {
@@ -865,6 +922,7 @@ body::before {
     scroll-behavior: smooth;
     scrollbar-width: none; /* Firefox */
     -ms-overflow-style: none; /* IE/Edge */
+    padding: 0 10px;
 }
 
 .showcase-cards::-webkit-scrollbar {
@@ -886,6 +944,20 @@ body::before {
 /* Carousel Wrapper */
 .showcase-carousel-wrapper {
     position: relative;
+    width: 100%;
+    max-width: 100%;
+}
+
+@media (max-width: 1200px) {
+    .showcase-carousel-wrapper {
+        padding: 0;
+    }
+}
+
+@media (max-width: 992px) {
+    .showcase-carousel-wrapper {
+        padding: 0;
+    }
 }
 
 /* Carousel Navigation Buttons */
@@ -893,7 +965,7 @@ body::before {
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
-    background: white;
+    background: rgba(255, 255, 255, 0.95);
     border: none;
     width: 48px;
     height: 48px;
@@ -903,7 +975,7 @@ body::before {
     justify-content: center;
     cursor: pointer;
     box-shadow: var(--shadow-md);
-    z-index: 5;
+    z-index: 10;
     transition: var(--transition);
     color: var(--text-dark);
 }
@@ -915,11 +987,11 @@ body::before {
 }
 
 .carousel-prev {
-    left: -24px;
+    left: 10px;
 }
 
 .carousel-next {
-    right: -24px;
+    right: 10px;
 }
 
 .showcase-card-bg {
@@ -1088,6 +1160,7 @@ body::before {
     .showcase-carousel-wrapper {
         width: 100%;
         overflow: hidden;
+        padding: 0;
     }
 
     .showcase-cards {
@@ -1155,6 +1228,33 @@ body::before {
     .grid-3 {
         grid-template-columns: repeat(2, 1fr);
         gap: 0.6rem;
+    }
+
+    /* Extra small screens - value boxes */
+    .value-boxes {
+        gap: 0.3rem;
+    }
+
+    .value-box {
+        padding: 0.5rem 0.2rem;
+    }
+
+    .value-icon {
+        width: 32px;
+        height: 32px;
+    }
+
+    .value-icon svg {
+        width: 16px !important;
+        height: 16px !important;
+    }
+
+    .value-box h4 {
+        font-size: 0.65rem;
+    }
+
+    .value-box p {
+        font-size: 0.55rem;
     }
 }
 
@@ -1585,6 +1685,8 @@ select.form-control {
     padding: 3.5rem 0;
     position: relative;
     background: var(--bg-warm);
+    width: 100%;
+    overflow-x: hidden;
 }
 
 /* ---- About Us Section ---- */
@@ -1593,6 +1695,7 @@ select.form-control {
     padding: 5rem 0;
     position: relative;
     overflow: hidden;
+    width: 100%;
 }
 
 .about-section::before {
@@ -1624,6 +1727,7 @@ select.form-control {
 .about-images {
     position: relative;
     min-height: 400px;
+    overflow: hidden;
 }
 
 .about-image-main {
@@ -1683,6 +1787,8 @@ select.form-control {
     grid-template-columns: repeat(3, 1fr);
     gap: 2rem;
     margin-top: 3rem;
+    width: 100%;
+    max-width: 100%;
 }
 
 .value-box {
@@ -1693,6 +1799,9 @@ select.form-control {
     padding: 2rem;
     text-align: center;
     transition: var(--transition);
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
 }
 
 .value-box:hover {
@@ -1730,26 +1839,37 @@ select.form-control {
 @media (max-width: 768px) {
     .about-section {
         padding: 3rem 0;
+        overflow-x: hidden;
+    }
+
+    .about-content {
+        width: 100%;
+        overflow-x: hidden;
     }
 
     .about-story {
         grid-template-columns: 1fr;
         gap: 2rem;
+        width: 100%;
     }
 
     .about-images {
         min-height: 300px;
         margin-bottom: 2rem;
+        width: 100%;
+        overflow: hidden;
+        position: relative;
     }
 
     .about-image-main {
         max-width: 100%;
+        width: 100%;
     }
 
     .about-image-floating {
-        width: 180px;
-        bottom: -20px;
-        right: -20px;
+        width: 160px;
+        bottom: 10px;
+        right: 10px;
     }
 
     .about-text p {
@@ -1759,32 +1879,49 @@ select.form-control {
 
     .value-boxes {
         grid-template-columns: repeat(3, 1fr);
-        gap: 0.8rem;
+        gap: 0.4rem;
+        padding: 0;
+        width: 100%;
+        max-width: 100%;
+        box-sizing: border-box;
+        margin-top: 2rem;
     }
 
     .value-box {
-        padding: 1rem;
+        padding: 0.6rem 0.3rem;
+        min-width: 0;
+        width: 100%;
+        max-width: 100%;
+        box-sizing: border-box;
+        overflow: hidden;
     }
 
     .value-icon {
-        width: 40px;
-        height: 40px;
-        margin-bottom: 0.5rem;
+        width: 36px;
+        height: 36px;
+        margin-bottom: 0.4rem;
     }
 
     .value-icon svg {
-        width: 20px !important;
-        height: 20px !important;
+        width: 18px !important;
+        height: 18px !important;
     }
 
     .value-box h4 {
-        font-size: 0.8rem;
-        margin-bottom: 0.3rem;
+        font-size: 0.7rem;
+        margin-bottom: 0.25rem;
+        word-wrap: break-word;
+        overflow-wrap: break-word;
+        hyphens: auto;
+        line-height: 1.2;
     }
 
     .value-box p {
-        font-size: 0.7rem;
-        line-height: 1.4;
+        font-size: 0.6rem;
+        line-height: 1.3;
+        word-wrap: break-word;
+        overflow-wrap: break-word;
+        hyphens: auto;
     }
 }
 
@@ -1819,7 +1956,7 @@ select.form-control {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    min-height: 200px;
+    min-height: 220px;
 }
 
 .testimonial-card:hover {
@@ -1841,9 +1978,29 @@ select.form-control {
 }
 
 .testimonial-author {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
     text-align: left;
     border-top: 2px solid var(--bg-warm);
     padding-top: 1rem;
+}
+
+.testimonial-avatar {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--secondary), var(--secondary-light));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.testimonial-avatar svg {
+    width: 28px;
+    height: 28px;
+    fill: white;
 }
 
 .testimonial-author h4 {
@@ -1858,6 +2015,33 @@ select.form-control {
     font-size: 0.85rem;
     color: var(--text-light);
     font-weight: 500;
+    display: block;
+    margin-bottom: 0.3rem;
+}
+
+.testimonial-stars {
+    display: flex;
+    gap: 0.2rem;
+    margin-top: 0.3rem;
+}
+
+.testimonial-stars svg {
+    width: 14px;
+    height: 14px;
+    fill: #FFB800;
+}
+
+/* ---- Why Choose Us Grid (4 columns) ---- */
+.why-choose-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.5rem;
+}
+
+@media (max-width: 1200px) {
+    .why-choose-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
 }
 
 @media (max-width: 768px) {
@@ -1883,12 +2067,33 @@ select.form-control {
         font-size: 0.9rem;
     }
 
+    .testimonial-avatar {
+        width: 40px;
+        height: 40px;
+    }
+
+    .testimonial-avatar svg {
+        width: 24px;
+        height: 24px;
+    }
+
     .testimonial-author h4 {
         font-size: 0.95rem;
     }
 
     .testimonial-author span {
         font-size: 0.8rem;
+    }
+
+    .testimonial-stars svg {
+        width: 12px;
+        height: 12px;
+    }
+
+    /* Why Choose Us - Mobile tetap 2 kolom */
+    .why-choose-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 0.8rem;
     }
 }
 
@@ -2919,6 +3124,35 @@ select.form-control {
 
 ::-webkit-scrollbar-thumb:hover {
     background: var(--primary);
+}
+
+/* ---- Global Overflow Prevention ---- */
+/* Prevent any horizontal scroll */
+.hero-wrapper,
+.section,
+.about-section,
+.contact-section,
+.faq-section,
+footer {
+    max-width: 100vw;
+    overflow-x: hidden;
+}
+
+/* Ensure all containers are constrained */
+@media (max-width: 768px) {
+    .container {
+        max-width: 100%;
+        padding-left: 1rem;
+        padding-right: 1rem;
+    }
+
+    .about-content,
+    .about-story,
+    .about-text,
+    .about-images {
+        max-width: 100%;
+        overflow-x: hidden;
+    }
 }
 
 /* Filter sidebar */
